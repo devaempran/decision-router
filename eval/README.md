@@ -9,6 +9,7 @@ prepare.py        download the complaints, write data/tickets.jsonl (fit and tes
 collect.py        tickets -> decisionLM /api/decide, one JSON line per answer (resumable)
 report.py         accuracy, calibration, threshold sweep, test scored once -> results/report.json, REPORT.md
 run_pipeline.py   the test split through Redis, the deciders and decisionLM (the end-to-end check)
+hybrid.py         tier 1 decides, Haiku escalates: accuracy, decider and overall latency, cost -> results/HYBRID.md
 hosted.py         the same tickets through a prompted Claude call (needs ANTHROPIC_API_KEY)
 compare.py        local vs hosted: accuracy, latency, calibration, cost -> results/COMPARISON.md
 tests/            the harness's own logic, with no model or network
@@ -40,6 +41,13 @@ The intervals are 95% bootstrap intervals; with 320 tickets they are about plus 
    on a few hundred labelled tickets closes the gap for tier 1 (0.032). The hosted confidence is what the model says, with no refit possible.
 5. **The pipeline matches the simulation.** All 320 test tickets went through Redis, the deciders and the service at theta 0.5: 320 routed,
    0 dead-lettered, 0 missing, 75.0% accuracy, 3.1% escalated, the same as the offline numbers.
+
+6. **Tier 1 deciding with Haiku as the escalation** ([`results/HYBRID.md`](results/HYBRID.md)). Escalating tickets under 0.85 confidence (24% of them)
+   to Haiku lifts accuracy from 75.0% to 77.5% (73.1 to 82.2): decider latency stays 141 ms, overall average latency is 395 ms (p95 1.4 s) and the API
+   cost is $0.024 per 1,000 decisions. On the 76 low-confidence tickets Haiku is right 65.8% of the time against tier 1's 55.3%. The gain is within noise
+   at this sample size, and it is gradual: tier-1 confidence does not isolate the errors sharply enough, so reaching Haiku's own 80.3% needs
+   escalating about 90% of tickets (threshold 0.95, the one the fit split picks), which is Haiku-only in practice. The hybrid is a latency and
+   cost saving for a modest accuracy cost against Haiku alone, not an accuracy gain.
 
 Caveats: class-balanced sampling, not live traffic; regulator complaints, not helpdesk tickets ([`DATASET.md`](DATASET.md)); one run per
 configuration; the hosted prompt is one plain prompt that was not tuned (thinking off, low effort), and a tuned prompt, few-shot examples or higher

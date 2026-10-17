@@ -211,6 +211,26 @@
 
 <!-- 11 -->
 <section class="slide">
+  <div class="kicker">Hybrid: local decides, hosted escalates</div>
+  <h2>Tier 1 first, Claude Haiku 5.5 when it is unsure</h2>
+  <div class="grid g4">
+    <div class="card"><div class="big a">141 ms</div><p>decider average, every ticket pays it</p></div>
+    <div class="card"><div class="big b">395 ms</div><p>overall average at threshold 0.85 (p95 1.4 s); 24% of tickets escalated</p></div>
+    <div class="card"><div class="big c">77.5%</div><p>accuracy, up from 75.0% (interval 73 to 82)</p></div>
+    <div class="card"><div class="big">$0.024</div><p>per 1,000 decisions, against $0.10 for Haiku alone</p></div>
+  </div>
+  <div class="card">
+    <h3>Accuracy against average latency, same 320 tickets</h3>
+    <div class="row" style="grid-template-columns:16vw 1fr 24vw"><span>tier 1 only</span><div class="bar"><i style="width:75%"></i></div><b>75.0% · 141 ms</b></div>
+    <div class="row" style="grid-template-columns:16vw 1fr 24vw"><span>hybrid at 0.85</span><div class="bar"><i style="width:77.5%;background:var(--b)"></i></div><b>77.5% · 395 ms</b></div>
+    <div class="row" style="grid-template-columns:16vw 1fr 24vw"><span>hybrid at 0.90</span><div class="bar"><i style="width:77.8%;background:var(--b)"></i></div><b>77.8% · 537 ms</b></div>
+    <div class="row" style="grid-template-columns:16vw 1fr 24vw"><span>Haiku only</span><div class="bar"><i style="width:80.3%;background:var(--c)"></i></div><b>80.3% · 927 ms</b></div>
+    <p style="margin-top:1vh">On the uncertain tickets Haiku is right 66% of the time, tier 1 55%. The gain is modest and within noise at this sample size; matching Haiku's 80% means escalating about 90% of tickets.</p>
+  </div>
+</section>
+
+<!-- 12 -->
+<section class="slide">
   <div class="kicker">Next steps</div>
   <h2>From a public dataset to your data</h2>
   <div class="grid g3">
