@@ -37,10 +37,10 @@ service/
 ├── RESULTS.md                  evaluation results, what changed because of them, limitations
 ├── pyproject.toml              packaging (src layout, `decisionlm` command), pytest and ruff settings
 ├── requirements.txt
-└── (the MIT LICENSE is one level up, in decision-router/)
+└── (the MIT LICENSE is one level up, at the repo root)
 ```
 
-Tests run in CI on every push (`../../.github/workflows/ci.yml`): the API tests with the model faked, and the pipeline tests against a Redis service.
+Tests run in CI on every push (`.github/workflows/ci.yml` at the repo root): the API tests with the model faked, and the pipeline tests against a Redis service.
 
 ### Configuration (`config/decisionlm.toml`)
 
@@ -62,7 +62,7 @@ Use another file with `DECISIONLM_CONFIG=<path>`. A bad or missing setting stops
 ### One-time setup (Windows)
 
 ```powershell
-cd decision-router/service
+cd service
 python -m venv .venv
 .venv\Scripts\pip install flask waitress pandas pyarrow huggingface_hub
 .venv\Scripts\pip install --prefer-binary --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cu124 llama-cpp-python

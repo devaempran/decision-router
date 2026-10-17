@@ -59,4 +59,4 @@ service/    pytest   (the model is faked; no GPU needed)
 pipeline/   pytest   (needs Redis; the end-to-end tests take about three minutes)
 ```
 
-CI (`../.github/workflows/ci.yml`) runs both. [`LICENSE`](LICENSE) covers the whole folder.
+CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs both. [`LICENSE`](LICENSE) covers the whole repo.
