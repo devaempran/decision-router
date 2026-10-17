@@ -42,6 +42,21 @@ jobs:
       - run: ruff check .
       - run: pytest   # includes the slow end-to-end tests (about three minutes)
 
+  eval:
+    # The evaluation harness's own logic (no model, no network, no GPU).
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: eval
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install numpy pandas redis pytest ruff
+      - run: ruff check .
+      - run: pytest
+
   compose-demo:
     # The five-minute path: no GPU, mock model, everything in containers.
     runs-on: ubuntu-latest
