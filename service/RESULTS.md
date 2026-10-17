@@ -18,7 +18,7 @@ Hardware and software: RTX 5060 Ti (16 GB), `llama-cpp-python` 0.3.36 (CUDA 12.4
 | Escalation to a thinking reasoner | test accuracy 0.902 to 0.940 at a 0.85 threshold, 22% of items escalated, 3.3 s mean per decision |
 | Reasoner on the 331 items the baseline was under 0.9 confident on | 0.698 (baseline) / 0.752 (production tier 1) to **0.846**, at 20.9 s mean per item |
 | Reliability | the Flask dev server crashed at 4 and 16 concurrent requests; fixed with a single-worker waitress server (0 errors at 16) |
-| Not validated | any real (non-exam) decisions: every number here is from public benchmarks |
+| Real (non-exam) decisions | 320 public consumer complaints, 8 teams: tier 1 75.0%, ECE 0.118 with this temperature (0.032 after refitting), and the reasoner did not help (51% against tier 1's 60% on low-confidence tickets). See [`../eval/`](../eval/README.md) |
 
 ## 1. System
 

@@ -1,0 +1,388 @@
+{
+ "service_temperature": 7.5,
+ "n_fit": 320,
+ "n_test": 320,
+ "tier1_fit": {
+  "accuracy": 0.78125,
+  "ece": 0.09775865411294835,
+  "brier": 0.3612599769721144,
+  "mean_confidence": 0.8746171250330083,
+  "bins": [
+   {
+    "bin": "0.3-0.4",
+    "n": 1,
+    "confidence": 0.35735187928995754,
+    "accuracy": 0.0
+   },
+   {
+    "bin": "0.4-0.5",
+    "n": 8,
+    "confidence": 0.45364564901268234,
+    "accuracy": 0.125
+   },
+   {
+    "bin": "0.5-0.6",
+    "n": 6,
+    "confidence": 0.5495592245349334,
+    "accuracy": 0.6666666666666666
+   },
+   {
+    "bin": "0.6-0.7",
+    "n": 10,
+    "confidence": 0.6560725093727066,
+    "accuracy": 0.4
+   },
+   {
+    "bin": "0.7-0.8",
+    "n": 21,
+    "confidence": 0.7515224182168941,
+    "accuracy": 0.5714285714285714
+   },
+   {
+    "bin": "0.8-0.9",
+    "n": 68,
+    "confidence": 0.8648714037122717,
+    "accuracy": 0.75
+   },
+   {
+    "bin": "0.9-1.0",
+    "n": 206,
+    "confidence": 0.9293187197244919,
+    "accuracy": 0.8640776699029126
+   }
+  ]
+ },
+ "tier1_test": {
+  "accuracy": 0.75,
+  "ece": 0.11815090285581807,
+  "brier": 0.4145454470513231,
+  "mean_confidence": 0.8640705422557134,
+  "bins": [
+   {
+    "bin": "0.3-0.4",
+    "n": 2,
+    "confidence": 0.38491038078429973,
+    "accuracy": 0.5
+   },
+   {
+    "bin": "0.4-0.5",
+    "n": 8,
+    "confidence": 0.4471651928018352,
+    "accuracy": 0.5
+   },
+   {
+    "bin": "0.5-0.6",
+    "n": 12,
+    "confidence": 0.5376062668276949,
+    "accuracy": 0.3333333333333333
+   },
+   {
+    "bin": "0.6-0.7",
+    "n": 10,
+    "confidence": 0.6452244376813079,
+    "accuracy": 0.4
+   },
+   {
+    "bin": "0.7-0.8",
+    "n": 26,
+    "confidence": 0.7511564761387278,
+    "accuracy": 0.6153846153846154
+   },
+   {
+    "bin": "0.8-0.9",
+    "n": 65,
+    "confidence": 0.866323297616751,
+    "accuracy": 0.6923076923076923
+   },
+   {
+    "bin": "0.9-1.0",
+    "n": 197,
+    "confidence": 0.9310194361137254,
+    "accuracy": 0.8426395939086294
+   }
+  ],
+  "ci95": [
+   0.703125,
+   0.796875
+  ]
+ },
+ "refit": {
+  "scale_k": 0.78,
+  "temperature": 9.615384615384615,
+  "fit": {
+   "accuracy": 0.78125,
+   "ece": 0.041040223091381736,
+   "brier": 0.34892302033010353,
+   "mean_confidence": 0.7738867489938854,
+   "bins": [
+    {
+     "bin": "0.3-0.4",
+     "n": 5,
+     "confidence": 0.35606230045422105,
+     "accuracy": 0.2
+    },
+    {
+     "bin": "0.4-0.5",
+     "n": 10,
+     "confidence": 0.4534209467622231,
+     "accuracy": 0.4
+    },
+    {
+     "bin": "0.5-0.6",
+     "n": 11,
+     "confidence": 0.5518053751849593,
+     "accuracy": 0.5454545454545454
+    },
+    {
+     "bin": "0.6-0.7",
+     "n": 31,
+     "confidence": 0.6572335199465872,
+     "accuracy": 0.5483870967741935
+    },
+    {
+     "bin": "0.7-0.8",
+     "n": 79,
+     "confidence": 0.7672425903948178,
+     "accuracy": 0.7721518987341772
+    },
+    {
+     "bin": "0.8-0.9",
+     "n": 180,
+     "confidence": 0.8369071083511668,
+     "accuracy": 0.8777777777777778
+    },
+    {
+     "bin": "0.9-1.0",
+     "n": 4,
+     "confidence": 0.9074240795926717,
+     "accuracy": 0.75
+    }
+   ]
+  },
+  "test": {
+   "accuracy": 0.75,
+   "ece": 0.03228650095608053,
+   "brier": 0.3981414327993062,
+   "mean_confidence": 0.7632771989702674,
+   "bins": [
+    {
+     "bin": "0.3-0.4",
+     "n": 8,
+     "confidence": 0.35461778708412584,
+     "accuracy": 0.625
+    },
+    {
+     "bin": "0.4-0.5",
+     "n": 15,
+     "confidence": 0.4554622375915263,
+     "accuracy": 0.26666666666666666
+    },
+    {
+     "bin": "0.5-0.6",
+     "n": 16,
+     "confidence": 0.5627857153445548,
+     "accuracy": 0.5
+    },
+    {
+     "bin": "0.6-0.7",
+     "n": 28,
+     "confidence": 0.6579783616987797,
+     "accuracy": 0.6428571428571429
+    },
+    {
+     "bin": "0.7-0.8",
+     "n": 80,
+     "confidence": 0.7674594283897104,
+     "accuracy": 0.7375
+    },
+    {
+     "bin": "0.8-0.9",
+     "n": 169,
+     "confidence": 0.8409560318674371,
+     "accuracy": 0.8461538461538461
+    },
+    {
+     "bin": "0.9-1.0",
+     "n": 4,
+     "confidence": 0.9083846450218036,
+     "accuracy": 0.75
+    }
+   ]
+  }
+ },
+ "latency_tier1_ms": {
+  "p50": 130.8199167251587,
+  "p95": 193.69540214538574
+ },
+ "sweep": {
+  "fit": [
+   {
+    "theta": 0.0,
+    "escalated": 0.0,
+    "accuracy": 0.78125,
+    "mean_latency_s": 0.15974789708852768,
+    "gpu_seconds_per_1000": 159.74789708852768
+   },
+   {
+    "theta": 0.5,
+    "escalated": 0.028125,
+    "accuracy": 0.79375,
+    "mean_latency_s": 0.931351051479578,
+    "gpu_seconds_per_1000": 931.351051479578
+   },
+   {
+    "theta": 0.6,
+    "escalated": 0.046875,
+    "accuracy": 0.790625,
+    "mean_latency_s": 1.1738166071474552,
+    "gpu_seconds_per_1000": 1173.8166071474552
+   },
+   {
+    "theta": 0.7,
+    "escalated": 0.078125,
+    "accuracy": 0.78125,
+    "mean_latency_s": 1.7655995443463326,
+    "gpu_seconds_per_1000": 1765.5995443463326
+   },
+   {
+    "theta": 0.75,
+    "escalated": 0.109375,
+    "accuracy": 0.78125,
+    "mean_latency_s": 2.196982915699482,
+    "gpu_seconds_per_1000": 2196.982915699482
+   },
+   {
+    "theta": 0.8,
+    "escalated": 0.14375,
+    "accuracy": 0.771875,
+    "mean_latency_s": 2.718976716697216,
+    "gpu_seconds_per_1000": 2718.976716697216
+   },
+   {
+    "theta": 0.85,
+    "escalated": 0.203125,
+    "accuracy": 0.775,
+    "mean_latency_s": 3.408490788936615,
+    "gpu_seconds_per_1000": 3408.490788936615
+   },
+   {
+    "theta": 0.9,
+    "escalated": 0.35625,
+    "accuracy": 0.765625,
+    "mean_latency_s": 5.088853967934847,
+    "gpu_seconds_per_1000": 5088.853967934847
+   }
+  ],
+  "test": [
+   {
+    "theta": 0.0,
+    "escalated": 0.0,
+    "accuracy": 0.75,
+    "mean_latency_s": 0.14086599722504617,
+    "gpu_seconds_per_1000": 140.86599722504616
+   },
+   {
+    "theta": 0.5,
+    "escalated": 0.03125,
+    "accuracy": 0.75,
+    "mean_latency_s": 0.9123857699334621,
+    "gpu_seconds_per_1000": 912.3857699334621
+   },
+   {
+    "theta": 0.6,
+    "escalated": 0.06875,
+    "accuracy": 0.75625,
+    "mean_latency_s": 2.176956979930401,
+    "gpu_seconds_per_1000": 2176.956979930401
+   },
+   {
+    "theta": 0.7,
+    "escalated": 0.1,
+    "accuracy": 0.75625,
+    "mean_latency_s": 2.771074905246496,
+    "gpu_seconds_per_1000": 2771.074905246496
+   },
+   {
+    "theta": 0.75,
+    "escalated": 0.14375,
+    "accuracy": 0.75625,
+    "mean_latency_s": 3.7829486317932606,
+    "gpu_seconds_per_1000": 3782.9486317932606
+   },
+   {
+    "theta": 0.8,
+    "escalated": 0.18125,
+    "accuracy": 0.74375,
+    "mean_latency_s": 4.337668024748564,
+    "gpu_seconds_per_1000": 4337.668024748564
+   },
+   {
+    "theta": 0.85,
+    "escalated": 0.2375,
+    "accuracy": 0.73125,
+    "mean_latency_s": 5.235982470959425,
+    "gpu_seconds_per_1000": 5235.982470959425
+   },
+   {
+    "theta": 0.9,
+    "escalated": 0.384375,
+    "accuracy": 0.715625,
+    "mean_latency_s": 7.589148925989866,
+    "gpu_seconds_per_1000": 7589.148925989866
+   }
+  ]
+ },
+ "chosen_theta": 0.5,
+ "test_at": {
+  "never (tier 1 only)": {
+   "theta": 0.0,
+   "escalated": 0.0,
+   "accuracy": 0.75,
+   "mean_latency_s": 0.14086599722504617,
+   "gpu_seconds_per_1000": 140.86599722504616,
+   "ci95": [
+    0.703125,
+    0.796875
+   ]
+  },
+  "0.85 (shipped default)": {
+   "theta": 0.85,
+   "escalated": 0.2375,
+   "accuracy": 0.73125,
+   "mean_latency_s": 5.235982470959425,
+   "gpu_seconds_per_1000": 5235.982470959425,
+   "ci95": [
+    0.684375,
+    0.78125
+   ]
+  },
+  "0.5 (chosen on the fit split)": {
+   "theta": 0.5,
+   "escalated": 0.03125,
+   "accuracy": 0.75,
+   "mean_latency_s": 0.9123857699334621,
+   "gpu_seconds_per_1000": 912.3857699334621,
+   "ci95": [
+    0.703125,
+    0.796875
+   ]
+  }
+ },
+ "reasoner_on_low_confidence_test": {
+  "n": 123,
+  "tier1_accuracy": 0.6016260162601627,
+  "reasoner_accuracy": 0.5121951219512195,
+  "reasoner_mean_s": 19.377646643940995,
+  "forced_answer_share": 0.0
+ },
+ "pipeline_test": {
+  "theta": 0.5,
+  "n": 320,
+  "accuracy": 0.75,
+  "ci95": [
+   0.7,
+   0.796875
+  ],
+  "escalated": 0.03125
+ }
+}

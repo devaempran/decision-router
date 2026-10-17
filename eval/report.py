@@ -17,7 +17,6 @@ THETAS = [0.0, 0.5, 0.6, 0.7, 0.75, 0.8, 0.85, 0.9]
 SHIPPED_THETA = 0.85
 with open(os.path.join(HERE, "..", "service", "config", "calibration.json"), encoding="utf-8") as _f:
     SERVICE_T = json.load(_f)["temperature"]
-rng = np.random.default_rng(0)
 
 
 def load(name):
@@ -42,6 +41,7 @@ def ece(conf, ok, bins=10):
 
 
 def boot_ci(values, n=2000):
+    rng = np.random.default_rng(0)  # fixed seed: the same values always give the same interval
     values = np.asarray(values, dtype=float)
     means = [values[rng.integers(0, len(values), len(values))].mean() for _ in range(n)]
     return [float(np.percentile(means, 2.5)), float(np.percentile(means, 97.5))]

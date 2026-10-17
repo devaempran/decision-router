@@ -1,0 +1,60 @@
+[redis]
+host = "127.0.0.1"
+port = 6380
+
+[ingestion]
+stream = "eval:tickets"
+group = "eval-deciders"
+dlq_stream = "eval:tickets:dlq"
+
+[decision]
+url = "http://127.0.0.1:5001/api/decide"
+question = "Which team should handle this consumer complaint?"
+theta = 0.5
+model_version = "decisionLM-qwen3-8b-q8"
+review_stream = "eval:review"
+
+[[options]]
+name = "credit reporting: errors on credit reports or credit scores, credit repair, identity theft on a credit file"
+stream = "eval:team1"
+
+[[options]]
+name = "debt collection: collectors contacting the consumer about a debt, validation of a debt, harassment"
+stream = "eval:team2"
+
+[[options]]
+name = "credit and prepaid cards: card charges, fees, disputes, interest, rewards, card fraud"
+stream = "eval:team3"
+
+[[options]]
+name = "bank accounts: checking or savings accounts, deposits, holds, overdrafts, closed accounts"
+stream = "eval:team4"
+
+[[options]]
+name = "money transfers: wire or app transfers, remittances, virtual currency, money orders"
+stream = "eval:team5"
+
+[[options]]
+name = "mortgages: home loans, servicing, escrow, foreclosure, refinancing"
+stream = "eval:team6"
+
+[[options]]
+name = "student loans: federal or private student loan servicing, repayment, forgiveness"
+stream = "eval:team7"
+
+[[options]]
+name = "vehicle loans and leases: auto loans, repossession, lease-end charges"
+stream = "eval:team8"
+
+[dashboard]
+port = 5056
+label_field = "expected"
+
+[service]
+start = false
+
+[run]
+deciders = 1   # one GPU, and the service answers one request at a time
+
+[reliability]
+reclaim_idle_s = 900

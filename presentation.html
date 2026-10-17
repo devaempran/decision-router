@@ -192,14 +192,33 @@
 
 <!-- 10 -->
 <section class="slide">
+  <div class="kicker">Applied evaluation</div>
+  <h2>320 real consumer complaints, 8 teams</h2>
+  <div class="grid g4">
+    <div class="card"><div class="big a">75.0%</div><p>tier 1 accuracy at 131 ms (95% interval 70 to 80)</p></div>
+    <div class="card"><div class="big c">0.118 → 0.032</div><p>calibration error before and after refitting the temperature</p></div>
+    <div class="card"><div class="big d">51% vs 60%</div><p>reasoner vs tier 1 on low-confidence tickets: it did not help</p></div>
+    <div class="card"><div class="big b">0 lost</div><p>320 of 320 routed through Redis; 75.0% again</p></div>
+  </div>
+  <div class="card">
+    <h3>Against prompted hosted models, same tickets</h3>
+    <div class="row" style="grid-template-columns:16vw 1fr 22vw"><span>local tier 1</span><div class="bar"><i style="width:75%"></i></div><b>75.0% · 131 ms · no per-call fee</b></div>
+    <div class="row" style="grid-template-columns:16vw 1fr 22vw"><span>Haiku 5.5</span><div class="bar"><i style="width:80.3%;background:var(--c)"></i></div><b>80.3% · 927 ms · $0.10 / 1,000</b></div>
+    <div class="row" style="grid-template-columns:16vw 1fr 22vw"><span>Sonnet 5.5</span><div class="bar"><i style="width:81.6%;background:var(--c)"></i></div><b>81.6% · 1,345 ms · $1.96 / 1,000</b></div>
+    <p style="margin-top:1vh">Hosted is about 5 points more accurate; local tier 1 is about 7× faster. The shipped 0.85 threshold does not transfer: the refit one is 0.5.</p>
+  </div>
+</section>
+
+<!-- 11 -->
+<section class="slide">
   <div class="kicker">Next steps</div>
-  <h2>From benchmarks to your data</h2>
+  <h2>From a public dataset to your data</h2>
   <div class="grid g3">
-    <div class="card"><h3 class="a">1 · Label</h3><p>A few hundred real decisions; refit the temperature and the threshold.</p></div>
-    <div class="card"><h3 class="a">2 · Upgrade</h3><p>Try a larger tier-2 model. Models are swappable in config.</p></div>
+    <div class="card"><h3 class="a">1 · Label</h3><p>Your own few hundred decisions: refit the temperature and the threshold, as the harness in eval/ does.</p></div>
+    <div class="card"><h3 class="a">2 · Upgrade</h3><p>A stronger tier-2 model, or a tuned prompt for the hosted comparison. Models are swappable in config.</p></div>
     <div class="card"><h3 class="a">3 · Monitor</h3><p>Track escalation rate and sampled fast-path accuracy on the dashboard.</p></div>
   </div>
-  <p class="mute" style="font-size:clamp(12px,1.1vw,15px)">Model numbers: public benchmarks on one RTX 5060 Ti (16 GB), measured Oct 10–12, 2026 (RESULTS.md).</p>
+  <p class="mute" style="font-size:clamp(12px,1.1vw,15px)">Benchmarks: one RTX 5060 Ti (16 GB), Oct 10–12, 2026 (service/RESULTS.md). Applied evaluation: Oct 17, 2026 (eval/README.md); hosted prices as listed 2026-10-06.</p>
 </section>
 
 <div id="hud"><span>decision-router</span><span id="num"></span></div>

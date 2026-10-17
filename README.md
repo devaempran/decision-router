@@ -2,11 +2,12 @@
 
 Route a stream of events by asking a local LLM to pick one option for each, and know how much to trust the answer.
 
-Two components that work together, each with its own README, tests and config:
+Two components that work together, plus an evaluation of them, each with its own README, tests and config:
 
 | Folder | What it is |
 |---|---|
 | [`service/`](service/README.md) (decisionLM) | A local HTTP service. Given a question and a fixed list of options it returns one option and a calibrated confidence: a fast logit-based tier 1 (about 0.1 s) that escalates to a slower thinking tier 2 when unsure. Needs a GPU. Measured accuracy and speed: [`service/RESULTS.md`](service/RESULTS.md). |
+| [`eval/`](eval/README.md) | An evaluation on 320 public consumer complaints through the real stack, with a threshold and calibration refit and a comparison against Claude Haiku 5.5 and Sonnet 5.5. Findings: [`eval/README.md`](eval/README.md#findings). |
 | [`pipeline/`](pipeline/README.md) | A Redis Streams consumer. Reads events from an ingestion stream, calls the service's `/api/decide`, and routes each event to a stream named for the chosen option, with retries, a dead-letter stream and crash recovery. Live demo in [`pipeline/demo`](pipeline/demo/README.md). |
 
 ```
