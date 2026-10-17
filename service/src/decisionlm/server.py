@@ -7,7 +7,7 @@ import math
 from flask import Flask, jsonify, request, send_from_directory
 from werkzeug.exceptions import HTTPException
 
-from decisionlm import decide, model, settings, tier1
+from decisionlm import decide, mock, model, settings, tier1
 from decisionlm.errors import ModelLoadError, PromptTooLongError, ScoringError
 
 log = logging.getLogger("decisionLM")
@@ -76,13 +76,21 @@ def create_app(cfg: settings.Settings | None = None) -> Flask:
 
     @app.route("/api/health", methods=["GET"])
     def api_health():
-        return jsonify({"ok": True, "model": settings.get().model_label, "gpu": model.gpu_status()})
+        cfg = settings.get()
+        if cfg.mock:
+            return jsonify({"ok": True, "model": "mock (keyword heuristic, not a real model)", "mock": True,
+                            "gpu": {"loaded": False}})
+        return jsonify({"ok": True, "model": cfg.model_label, "gpu": model.gpu_status()})
 
     @app.route("/api/warmup", methods=["POST"])
     def api_warmup():
         return jsonify(model.warmup())
 
     def run_score(body: dict) -> dict:
+        if settings.get().mock:
+            tier1.validate_options(body.get("Options"))
+            probs = mock.probabilities(body.get("Context") or "", body["Options"])
+            return {"choices": [{"text": o, "probability": p} for o, p in zip(body["Options"], probs, strict=True)]}
         return tier1.score_options(body.get("Context") or "", body["Question"], body.get("Options"))
 
     @app.route("/api/score", methods=["POST"])
@@ -112,13 +120,16 @@ def create_app(cfg: settings.Settings | None = None) -> Flask:
 
 def main() -> None:
     cfg = settings.get()
-    print(f"Loading {cfg.model_label}...")
-    report = model.warmup()
-    print(f"Loaded in {report['load_duration_s']:.2f}s. "
-          f"GPU offload support: {report['supports_gpu_offload']}. "
-          f"GPU memory: {report['gpu_memory']}")
-    for line in report["offload_log_lines"]:
-        print(" ", line.strip())
+    if cfg.mock:
+        print("MOCK MODE: answers come from a keyword heuristic, not a model.")
+    else:
+        print(f"Loading {cfg.model_label}...")
+        report = model.warmup()
+        print(f"Loaded in {report['load_duration_s']:.2f}s. "
+              f"GPU offload support: {report['supports_gpu_offload']}. "
+              f"GPU memory: {report['gpu_memory']}")
+        for line in report["offload_log_lines"]:
+            print(" ", line.strip())
     print(f"decisionLM running at http://{cfg.host}:{cfg.port}")
     # One worker thread: a llama.cpp context is not thread-safe (the Flask dev server's concurrent
     # threads crash it). Requests queue and are served one at a time.

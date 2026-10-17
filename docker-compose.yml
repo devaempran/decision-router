@@ -1,0 +1,26 @@
+# Try decision-router without a GPU:   docker compose --profile demo up --build     then open http://127.0.0.1:5055
+# The service runs its MOCK backend (a keyword heuristic, not an LLM). For real decisions see README.md.
+services:
+  redis:
+    image: redis:7
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      retries: 20
+
+  service:
+    build: ./service
+    ports: ["5000:5000"]
+
+  pipeline:
+    build: ./pipeline
+    depends_on:
+      redis: {condition: service_healthy}
+      service: {condition: service_healthy}
+    ports: ["5055:5055"]       # the live dashboard
+
+  publisher:                   # writes the labelled demo tickets into the ingestion topic, then exits
+    build: ./pipeline
+    profiles: ["demo"]
+    depends_on: [pipeline]
+    command: ["python", "demo/publisher/publish.py", "--edge", "--dupes", "5", "--rate", "3"]

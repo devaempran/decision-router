@@ -202,3 +202,10 @@ but has **not** been validated on your real decisions; collect a labeled sample 
 - Probabilities say "which option, given it is one of these", not whether the answer is factually right. A confident wrong answer still shows high confidence (about 1% of fast-path answers at confidence 0.9).
 - The same 8B model is both tiers; a larger tier-2 model has not been tried.
 - A client that disconnects does not cancel its request; the server still finishes it.
+
+## Mock mode (no GPU, no model)
+
+`DECISIONLM_MOCK=1 python run.py` (or `[mock] mock = true` in the config) serves the same API from a keyword heuristic in
+`src/decisionlm/mock.py`: no `llama-cpp-python`, model file or GPU needed. Responses carry `"mock": true`, `/api/health` reports it
+and the pipeline dashboard shows a banner. `[mock] fast_ms` and `reasoner_ms` set the simulated latencies. It exists so reviewers can
+see the pipeline work; its answers say nothing about model quality. `service/Dockerfile` builds this mock-only image.

@@ -1,6 +1,6 @@
 # decisionLM configuration. Relative paths are relative to the project root.
 # Override the file with DECISIONLM_CONFIG=<path>. A few settings can also be overridden per process with
-# environment variables: PORT, DECIDE_THETA, MAX_THINK_TOKENS, MAX_THINK_SECONDS, MAX_BODY_BYTES.
+# environment variables: PORT, DECISIONLM_HOST, DECIDE_THETA, MAX_THINK_TOKENS, MAX_THINK_SECONDS, MAX_BODY_BYTES.
 
 [model]
 path = "models/qwen3-8b-q8_0.gguf"

@@ -22,6 +22,13 @@ def score_options(context: str, question: str, options: Sequence[str]) -> dict:
     prompt; the letters are an internal detail. Returns the full score() result, with choices in the same
     order as `options`.
     """
+    validate_options(options)
+    choices = [{"label": label, "text": o} for label, o in zip(LABELS, options, strict=False)]
+    return score(context, question, choices)
+
+
+def validate_options(options) -> None:
+    """Raise ScoringError unless `options` is a list of 2 to 26 unique, non-empty strings."""
     if not isinstance(options, list) or len(options) < 2:
         raise ScoringError("Provide at least two options.")
     if len(options) > len(LABELS):
@@ -30,8 +37,6 @@ def score_options(context: str, question: str, options: Sequence[str]) -> dict:
         raise ScoringError("Every option must be a non-empty string.")
     if len(set(options)) != len(options):
         raise ScoringError("Options must be unique (they are used as output keys).")
-    choices = [{"label": label, "text": o} for label, o in zip(LABELS, options, strict=False)]
-    return score(context, question, choices)
 
 
 def _evaluate(llm, tokens: list[int], min_prefix_reuse: int) -> np.ndarray:

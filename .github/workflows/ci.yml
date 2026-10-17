@@ -41,3 +41,25 @@ jobs:
       - run: pip install redis pytest ruff
       - run: ruff check .
       - run: pytest   # includes the slow end-to-end tests (about three minutes)
+
+  compose-demo:
+    # The five-minute path: no GPU, mock model, everything in containers.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose --profile demo up --build -d
+      - name: wait for the demo tickets to be routed
+        run: |
+          for i in $(seq 1 60); do
+            decided=$(curl -s localhost:5055/api/state | python3 -c "import json,sys; print(json.load(sys.stdin)['totals']['decided'])" 2>/dev/null || echo 0)
+            echo "decided=$decided"
+            [ "${decided:-0}" -ge 80 ] && exit 0
+            sleep 5
+          done
+          docker compose logs --tail 50
+          exit 1
+      - name: dead-letter holds the edge cases
+        run: |
+          dead=$(curl -s localhost:5055/api/state | python3 -c "import json,sys; print(json.load(sys.stdin)['totals']['dead'])")
+          test "$dead" -ge 1
+      - run: docker compose --profile demo down

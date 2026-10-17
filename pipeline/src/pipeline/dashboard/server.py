@@ -118,7 +118,7 @@ def build_state(cfg: config.Config, r: redis.Redis, health: dict) -> dict:
                    "options": list(cfg.option_names), "streams": dict(cfg.option_streams),
                    "review": cfg.review_stream, "dlq": cfg.dlq, "url": cfg.url, "label_field": cfg.dashboard_label_field},
         "ingestion": {"len": r.xlen(cfg.ingestion), **ing},
-        "decisionlm": {"ok": health["ok"], "checked": health["checked"]},
+        "decisionlm": {"ok": health["ok"], "checked": health["checked"], "mock": bool(health.get("mock"))},
         "totals": {"decided": len(decided_all), "dead": next(t["len"] for t in topics if t["kind"] == "dlq"),
                    "in_flight": ing["pending"] + ing["lag"], "escalated": len(reasoned), "labelled": labelled,
                    "per_minute": sum(1 for e in decided_all if e["decided_at"] and now - e["decided_at"] <= RATE_WINDOW_S),
@@ -142,6 +142,7 @@ class Dashboard:
             try:
                 with urllib.request.urlopen(self.cfg.health_url, timeout=1.5) as resp:
                     self.health["ok"] = resp.status == 200
+                    self.health["mock"] = bool(json.loads(resp.read() or b"{}").get("mock"))
             except Exception:
                 self.health["ok"] = False
             self.health["checked"] = time.time()

@@ -15,6 +15,25 @@ events ──> Redis ingestion stream ──> pipeline/ (deciders) ──POST /a
                                           └──> live dashboard (http://127.0.0.1:5055, optional)
 ```
 
+## Try it in five minutes (no GPU)
+
+With only Docker installed:
+
+```
+git clone https://github.com/devaempran/decision-router && cd decision-router
+docker compose --profile demo up --build      # or: make demo
+```
+
+Open http://127.0.0.1:5055. Redis, the service, the deciders and the dashboard start, and 92 labelled support tickets (with edge cases and
+duplicates) flow through. The service runs its **mock backend**: a keyword heuristic that returns the real `/api/decide` response shape, so
+the pipeline, escalation path, dead-letter stream and dashboard behave as they do with the model, but the answers are not LLM output
+(the dashboard says so in a banner). Stop with `make down`.
+
+![The live dashboard running against the mock model](docs/dashboard.png)
+
+Other paths: `make demo-mock` (native Python, Redis in Docker), `make demo-gpu` (the real Qwen3 model, needs the one-time setup in
+[`service/README.md`](service/README.md)), `make test`. Run `make help` for the list.
+
 ## Quick start
 
 You bring Redis, a config file and events. We run the rest.

@@ -5,6 +5,7 @@ once on first use; `use()` swaps in a specific object (tests, embedding). A bad 
 SettingsError naming it, never a bare KeyError."""
 from __future__ import annotations
 
+import dataclasses
 import json
 import os
 import tomllib
@@ -39,6 +40,9 @@ class Settings:
     port: int
     threads: int
     max_body_bytes: int
+    mock: bool = False          # answer from a built-in keyword heuristic instead of the model (no GPU needed)
+    mock_fast_ms: float = 50.0
+    mock_reasoner_ms: float = 600.0
 
 
 def _path(value: str | Path) -> Path:
@@ -56,7 +60,7 @@ def _temperature(path: Path) -> float:
 
 def load(path: str | Path | None = None, environ: Mapping[str, str] | None = None) -> Settings:
     """Read a settings file. `environ` (default: os.environ) overrides PORT, DECIDE_THETA, MAX_THINK_TOKENS,
-    MAX_THINK_SECONDS and MAX_BODY_BYTES."""
+    MAX_THINK_SECONDS and MAX_BODY_BYTES; DECISIONLM_HOST sets the bind address, DECISIONLM_MOCK=1 the mock backend."""
     environ = os.environ if environ is None else environ
     path = Path(path or environ.get("DECISIONLM_CONFIG") or DEFAULT_PATH)
     try:
@@ -95,10 +99,18 @@ def load(path: str | Path | None = None, environ: Mapping[str, str] | None = Non
         min_label_mass=get("decide", "min_label_mass", float),
         max_think_tokens=get("decide", "max_think_tokens", int, env="MAX_THINK_TOKENS"),
         max_think_seconds=get("decide", "max_think_seconds", float, env="MAX_THINK_SECONDS"),
-        host=get("server", "host"),
+        host=get("server", "host", env="DECISIONLM_HOST"),
         port=get("server", "port", int, env="PORT"),
         threads=get("server", "threads", int),
         max_body_bytes=get("server", "max_body_bytes", int, env="MAX_BODY_BYTES"),
+    )
+    mock_cfg = cfg.get("mock") if isinstance(cfg.get("mock"), dict) else {}
+    flag = environ.get("DECISIONLM_MOCK")
+    s = dataclasses.replace(
+        s,
+        mock=(flag.strip().lower() in ("1", "true", "yes", "on")) if flag is not None else bool(mock_cfg.get("mock", False)),
+        mock_fast_ms=float(mock_cfg.get("fast_ms", s.mock_fast_ms)),
+        mock_reasoner_ms=float(mock_cfg.get("reasoner_ms", s.mock_reasoner_ms)),
     )
     if s.n_ctx < 512 or s.max_think_tokens < 1 or s.max_think_seconds <= 0 or s.max_body_bytes < 1 or s.threads < 1:
         raise SettingsError("n_ctx must be >= 512; max_think_tokens, max_think_seconds, max_body_bytes, threads must be positive")

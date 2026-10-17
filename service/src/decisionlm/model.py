@@ -13,7 +13,14 @@ import time
 from typing import Callable, Sequence
 
 import numpy as np
-from llama_cpp import Llama, llama_supports_gpu_offload
+
+try:
+    from llama_cpp import Llama, llama_supports_gpu_offload
+except ImportError:  # CPU-only installs run the mock backend (DECISIONLM_MOCK=1) and never load a model
+    Llama = None
+
+    def llama_supports_gpu_offload() -> bool:
+        return False
 
 from decisionlm import settings
 from decisionlm.errors import ModelLoadError, ScoringError

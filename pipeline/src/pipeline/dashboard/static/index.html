@@ -110,6 +110,9 @@
 </head>
 <body>
 <div class="wrap">
+  <div id="mock-banner" hidden style="background:#ffb454;color:#1a1200;text-align:center;padding:6px;font-weight:600">
+    Mock model: answers come from a keyword heuristic, not a real LLM. Start the service without DECISIONLM_MOCK for real decisions.
+  </div>
   <header>
     <h1>decision-router</h1>
     <span class="sub" id="question"></span>
@@ -363,6 +366,7 @@ function render() {
   if (s.error) { $("#error").append(el("div", "banner", s.error)); return; }
   $("#question").textContent = "“" + s.config.question + "” · escalation below confidence " + s.config.theta;
   const l = $("#live"); l.replaceChildren(el("span", "dot live"), el("span", null, "live"));
+  $("#mock-banner").hidden = !s.decisionlm.mock;
   pill($("#p-llm"), s.decisionlm.ok === true, s.decisionlm.ok === null ? "decisionLM: checking" : s.decisionlm.ok ? "decisionLM: responding" : "decisionLM: no answer (busy thinking, or down)");
   pill($("#p-ing"), s.ingestion.consumers > 0, s.ingestion.consumers + " decider" + (s.ingestion.consumers === 1 ? "" : "s") + " · " + s.totals.in_flight + " in flight");
   const labelled = !!s.config.label_field;

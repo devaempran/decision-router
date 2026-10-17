@@ -16,7 +16,11 @@ import zlib
 from typing import Sequence
 
 import numpy as np
-from llama_cpp import StoppingCriteriaList
+
+try:
+    from llama_cpp import StoppingCriteriaList
+except ImportError:  # CPU-only installs run the mock backend and never reach tier 2
+    StoppingCriteriaList = list
 
 from decisionlm import model, prompts, settings
 from decisionlm.errors import PromptTooLongError

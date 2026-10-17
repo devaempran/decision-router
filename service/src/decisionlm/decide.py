@@ -7,7 +7,7 @@ import logging
 import time
 from typing import Sequence
 
-from decisionlm import settings, tier1, tier2
+from decisionlm import mock, settings, tier1, tier2
 
 log = logging.getLogger("decisionLM")
 
@@ -21,6 +21,8 @@ def decide(context: str, question: str, options: Sequence[str], theta: float | N
     low_confidence=True and reasoner_error says why.
     """
     cfg = settings.get()
+    if cfg.mock:
+        return mock.decide(context, question, options, theta, max_think_tokens, max_think_seconds)
     theta = cfg.theta if theta is None else theta
     t0 = time.time()
     result = tier1.score_options(context, question, options)  # validates the type itself
