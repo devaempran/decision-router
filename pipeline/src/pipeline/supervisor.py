@@ -172,10 +172,11 @@ class Supervisor:
         service = [c for c in self.children if c.name == "decisionLM"]
         try:
             for group in (workers, service):
+                asked = time.time()
                 for c in group:
                     c.request_stop()
-                deadline = time.time() + max((c.grace_s for c in group), default=0)
                 for c in group:
+                    deadline = asked + c.grace_s  # each child gets its own grace period, not the longest one
                     while c.alive() and time.time() < deadline:
                         time.sleep(0.1)
                     if c.alive():

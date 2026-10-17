@@ -6,6 +6,7 @@ import urllib.request
 from http.server import ThreadingHTTPServer
 
 import pytest
+from conftest import REDIS_PORT
 from helpers import OPTIONS, add_event, config_text
 
 from pipeline import config, supervisor
@@ -45,7 +46,7 @@ def test_it_reports_every_configured_topic_without_any_labels(r, cfg):
 
 
 def test_the_text_comes_from_the_configured_context_field(tmp_path, r, cfg):
-    text = config_text("dash", 6380, 5099).replace('context_field = "payload"', 'context_field = "body"')
+    text = config_text("dash", REDIS_PORT, 5099).replace('context_field = "payload"', 'context_field = "body"')
     p = tmp_path / "c.toml"
     p.write_text(text)
     other = config.load(str(p), environ={})

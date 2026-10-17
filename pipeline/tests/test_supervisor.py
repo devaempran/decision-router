@@ -109,7 +109,8 @@ def test_start_refuses_the_unfinished_template():
 def test_start_reports_unreachable_redis(tmp_path):
     p = tmp_path / "c.toml"
     p.write_text("[redis]\nport = 1\n" + MINIMAL)
-    out = subprocess.run([sys.executable, RUN, "start", "--config", str(p)], capture_output=True, text=True, timeout=60)
+    env = {k: v for k, v in os.environ.items() if k not in ("REDIS_HOST", "REDIS_PORT")}  # they override the file's port
+    out = subprocess.run([sys.executable, RUN, "start", "--config", str(p)], capture_output=True, text=True, timeout=60, env=env)
     assert out.returncode != 0 and "cannot reach Redis" in out.stderr
 
 
